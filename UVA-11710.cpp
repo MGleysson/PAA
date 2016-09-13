@@ -1,14 +1,6 @@
 
-/*
-	Implementação do algoritmo de Kruskal
-	Para detectar ciclos iremos utilizar o algoritmo Union-Find que detecta
-	ciclos em grafos NÃO direcionados.
-*/
+#include <bits/stdc++.h>
 
-#include <iostream>
-#include <vector>
-#include <algorithm> // sort
-#include <string.h> // memset
 using namespace std;
 
 class Aresta
@@ -48,8 +40,8 @@ public:
 
 class Grafo
 {
-	int V; // número de vértices
-	vector<Aresta> arestas; // vetor de arestas
+	int V;
+	vector<Aresta> arestas;
 
 public:
 
@@ -58,14 +50,14 @@ public:
 		this->V = V;
 	}
 
-	// função que adiciona uma aresta
+
 	void adicionarAresta(int v1, int v2, int peso)
 	{
 		Aresta aresta(v1, v2, peso);
 		arestas.push_back(aresta);
 	}
 
-	// função que busca o subconjunto de um elemento "i"
+
 	int buscar(int subset[], int i)
 	{
 		if(subset[i] == -1)
@@ -73,7 +65,6 @@ public:
 		return buscar(subset, subset[i]);
 	}
 
-	// função para unir dois subconjuntos em um único subconjunto
 	void unir(int subset[], int v1, int v2)
 	{
 		int v1_set = buscar(subset, v1);
@@ -81,19 +72,16 @@ public:
 		subset[v1_set] = v2_set;
 	}
 
-	/// função que roda o algoritmo de Kruskal
-	void kruskal()
+	int mst_cost()
 	{
-		vector<Aresta> arvore;
+		//vector<Aresta> arvore;
+		int cost = 0;
 		int size_arestas = arestas.size();
 
-		// ordena as arestas pelo menor peso
 		sort(arestas.begin(), arestas.end());
 
-		// aloca memória para criar "V" subconjuntos
 		int * subset = new int[V];
 
-		// inicializa todos os subconjuntos como conjuntos de um único elemento
 		memset(subset, -1, sizeof(int) * V);
 
 		for(int i = 0; i < size_arestas; i++)
@@ -103,35 +91,70 @@ public:
 
 			if(v1 != v2)
 			{
-				// se forem diferentes é porque NÃO forma ciclo, insere no vetor
-				arvore.push_back(arestas[i]);
-				unir(subset, v1, v2); // faz a união
+				//arvore.push_back(arestas[i]);
+				unir(subset, v1, v2);
+				cost += arestas[i].obterPeso();
 			}
 		}
 
-		int size_arvore = arvore.size();
+		return cost;
 
-		// mostra as arestas selecionadas com seus respectivos pesos
-		for(int i = 0; i < size_arvore; i++)
-		{
-			char v1 = 'A' + arvore[i].obterVertice1();
-			char v2 = 'A' + arvore[i].obterVertice2();
-			cout << "(" << v1 << "," << v2 << ") = " << arvore[i].obterPeso() << endl;
-		}
 	}
 };
 
-int main(int argc, char *argv[])
-{
-	Grafo g(4); // grafo
 
-	// adiciona as arestas
-	g.adicionarAresta(0, 1, 2);
-    g.adicionarAresta(0, 2, 3);
-    g.adicionarAresta(1, 2, 8);
-    g.adicionarAresta(1, 3, 6);
+map<string, int> M;
 
-	g.kruskal(); // roda o algoritmo de Kruskal
+int station(string& s) {
+    if (M.find(s) != M.end())
+        return (M[s]);
+    else
+        return ((M[s]=M.size()));
+
+}
+
+int main(int argc, char *argv[]){
+
+    int s, c, cost;
+    string v1;
+    string v2;
+    string origem;
+
+    do{
+        cin >> s >> c;
+
+        if(s == 0 && c == 0) break;
+
+        M.clear();
+
+        string stations[s];
+
+        Grafo g(s);
+
+        for(int i = 0; i < s; i++){
+           cin >> stations[i];
+        }
+
+        for(int i = 0; i < c; i++){
+            cin >> v1 >> v2 >> cost;
+
+            int v1_int = station(v1) - 1;
+            int v2_int = station(v2) - 1;
+
+            cout << v1_int << " - " << v2_int<< endl;
+
+            g.adicionarAresta(v1_int, v2_int, cost);
+
+        }
+
+        cin >> origem;
+        int origem_int = station(origem)-1;
+
+        cout << origem_int << endl;
+
+        cout << "Chegou aqui!" << endl;
+
+    }while(s!=0 && c!=0);
 
 	return 0;
 }

@@ -1,9 +1,5 @@
 
-#include <iostream>
-#include <vector>
-#include <algorithm>
-#include <string.h>
-#include <stdlib.h>
+#include <bits/stdc++.h>
 
 using namespace std;
 
@@ -79,7 +75,7 @@ public:
 
 	int mst_cost()
 	{
-		vector<Aresta> arvore;
+		//vector<Aresta> arvore;
 		int size_arestas = arestas.size();
 
 		sort(arestas.begin(), arestas.end());
@@ -95,22 +91,15 @@ public:
 
 			if(v1 != v2)
 			{
-				arvore.push_back(arestas[i]);
+				//arvore.push_back(arestas[i]);
 				unir(subset, v1, v2);
+				cost += arestas[i].obterPeso();
 			}
 		}
 
-		int size_arvore = arvore.size();
-
-                int sum;
-
-		for(int i = 0; i < size_arvore; i++)
-		{
-			sum += arvore[i].obterPeso();
-		}
-
-        return sum;
+		return cost;
 	}
+
 };
 
 
@@ -132,9 +121,7 @@ int main(int argc, char *argv[])
             g.adicionarAresta(x-1, y-1, c);
         }
 
-        if(n-m >= 2) cout << "Case #" << contador << ": " << (g.mst_cost() + (n-m)*a) << " " << (n-m);
-        else cout << "Case #" << contador << ": " << (g.mst_cost() + a) << " 1";
-
+        cout << "Case #" << contador << ": ";
         cout << endl;
 
         contador++;
