@@ -1,6 +1,8 @@
 
 #include <bits/stdc++.h>
 
+using namespace std;
+
 void merge(int *v, int inicio, int meio, int fim){
     int *temp, p1, p2, tamanho, i, j, k;
     int fim1 = 0;
@@ -122,46 +124,65 @@ void mergeSortDEC(int *v, int inicio, int fim){
 
 }
 
+bool compare1(int i, int j) {
+    return (i > j);
+}
+
+bool compare2(int i, int j){
+    return (i < j);
+}
+
 // vetores que guardam os tamanhos de cada rota (rotas do período da manhã e rotas do período da noite)
-int routes_morning[105];
-int routes_evenning[105];
+//int routes_morning[105];
+//int routes_evenning[105];
+
+vector<int> routes_morning;
+vector<int> routes_evening;
 
 int main(){
 
-    int n, d, r, i;
+    int n, d, r, i, rm, re;
 
     do{
         int min_overtime = 0;
+
+        routes_morning.clear();
+        routes_evening.clear();
 
         scanf("%d%d%d", &n, &d, &r);
 
         if(n!=0 && d!=0 && r!=0){
 
             for(i = 0; i < n; i++){
-                scanf("%d", &routes_morning[i]);
+                scanf("%d", &rm);
+                routes_morning.push_back(rm);
 
             }
 
             for(i = 0; i < n; i++){
-                scanf("%d", &routes_evenning[i]);
+                scanf("%d", &re);
+                routes_evening.push_back(re);
             }
 
-			
-			/* 
-				ordena o tamanho das rotas de forma crescente e decrescente
-				pois dessa forma ao combinar uma rota da manhã com uma rota da tarde, a soma entre elas vai ser a mínima possível 
-			*/	
-            mergeSortCRESC(routes_morning, 0, n-1);
-            mergeSortDEC(routes_evenning, 0, n-1);
 
-			/*	
+			/*
+				ordena o tamanho das rotas de forma crescente e decrescente
+				pois dessa forma ao combinar uma rota da manhã com uma rota da tarde, a soma entre elas vai ser a mínima possível
+			*/
+
+            sort(routes_morning.begin(), routes_morning.end(), compare2);
+            sort(routes_evening.begin(), routes_evening.end(), compare1);
+            //mergeSortCRESC(routes_morning, 0, n-1);
+            //mergeSortDEC(routes_evenning, 0, n-1);
+
+			/*
 				faz a distribuição de rotas para cada motorista, pegando a rota de maior tamanho da manhã com a rota de menor tamanho da noite...
-				
+
 			*/
             for(i = 0; i < n; i++){
 				// se ultrapassar o valor limite d, calcule o custo de horas extra de trabalho.
-                if((routes_morning[i]+routes_evenning[i]) > d){
-                    min_overtime += (((routes_morning[i]+routes_evenning[i])-d)*r);
+                if((routes_morning[i]+routes_evening[i]) > d){
+                    min_overtime += (((routes_morning[i]+routes_evening[i])-d)*r);
                 }
             }
 

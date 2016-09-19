@@ -34,18 +34,18 @@ int main() {
     bool win = true;
     int gold = 0;
 
-    //Percorro todas as cabeças
+    ///Percorro todas as cabeças
     for (i = 0, j = 0; i < n && win == true; ++i){
-      //Acabaram os cavaleiros, mas se estou dentro do loop, não acabaram as cabeças!
+      ///Acabaram os cavaleiros, mas se estou dentro do loop, não acabaram as cabeças!
       if (j == m){
         win = false;
         break;
-      } else if (height[j] >= diameter[i]){   //se o cavaleiro atual pode vencer a cabeça atual
+      } else if (height[j] >= diameter[i]){   ///se o cavaleiro atual pode vencer a cabeça atual
         gold += height[j];
         j++;
-      } else {                                //se o cavaleiro não consegue, vou para o próximo (j++).
+      } else {                                ///se o cavaleiro não consegue, vou para o próximo (j++).
         j++;
-        i--;                                  //diminuo i porque o for vai aumentar. Dessa maneira, o valor permanece inalterado.
+        i--;                                  ///diminuo i porque o for vai aumentar. Dessa maneira, o valor permanece inalterado.
       }
     }
 

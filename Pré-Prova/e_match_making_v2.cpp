@@ -33,12 +33,17 @@ int main () {
         output1[c] = nbach - nspin;
         output2[c] = newer( bach, nbach );
     }
+
     if(nbach <= nspin){
         output1[c] = 0;
     }
+
     c++;
+
     cin >> nbach >> nspin;
+
     }
+
     for ( i = 0; i < c; i++ ) {
         if ( output1[i] != 0 )
             cout <<"Case "<<i+1<<": "<<output1[i]<<" "<<output2[i];
@@ -46,6 +51,6 @@ int main () {
             cout <<"Case "<<i+1<<": 0";
         cout << "\n";
     }
-    
+
 }
 
